@@ -76,6 +76,7 @@ async function refresh() {
     render(data);
     $('loadError').hidden = true;
     if (!data.writeReady) setFormMessage('Dashboard is live. Registration needs the one-time Google Sheet write connection.', 'error');
+    else if (formMessage.textContent.includes('write connection')) setFormMessage('Entries are saved to the linked Google Sheet.');
   } catch (error) {
     setStatus('error', 'Connection issue');
     $('loadError').hidden = false;
