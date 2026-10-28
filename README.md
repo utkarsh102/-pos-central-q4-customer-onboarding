@@ -27,4 +27,3 @@ The browser does not receive the secret. The public page allows anyone with its 
 ## Deploy
 
 Create a separate GitHub repository containing this folder's contents. Import it into Vercel under your personal account. Use **Other** as the framework preset, leave the build command blank, and set `public` as the output directory. Vercel serves `api/customers.js` as a Function. Add the two environment variables above before testing registration.
-

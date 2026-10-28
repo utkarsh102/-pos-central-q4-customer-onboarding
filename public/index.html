@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0a3321" />
+    <meta name="description" content="POS Central Q4 2026 customer onboarding dashboard for Akshay and Rohit." />
+    <title>Q4 Onboarding · POS Central</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/style.css" />
+    <script type="module" src="/app.js"></script>
+  </head>
+  <body>
+    <div class="topline"></div>
+    <header class="site-header shell">
+      <a class="brand" href="/" aria-label="POS Central onboarding home"><img src="/assets/pos-central-logo.png" alt="POS Central" /></a>
+      <div class="header-right"><span>ONBOARDING / Q4 2026</span><span id="statusPill" class="status-pill loading"><i></i><span>Connecting</span></span></div>
+    </header>
+    <main class="shell">
+      <section class="hero" aria-labelledby="heroTitle">
+        <div class="hero-grid" aria-hidden="true"></div><div class="hero-orbit orbit-one" aria-hidden="true"></div><div class="hero-orbit orbit-two" aria-hidden="true"></div>
+        <div class="hero-content">
+          <div class="eyebrow light"><span></span> EVERY NEW BEGINNING COUNTS</div>
+          <div class="hero-row"><div><h1 id="heroTitle">Q4 Onboarding <em>Arena.</em></h1><p>See every Clover customer added by Akshay and Rohit from October to December 2026.</p></div><div class="quarter-badge"><b>Q4</b><small>2026</small></div></div>
+          <div class="hero-stats"><div><span>TOTAL CUSTOMERS ONBOARDED</span><strong id="totalCount">—</strong></div><div><span>AKSHAY</span><strong id="akshayCount">—</strong></div><div><span>ROHIT</span><strong id="rohitCount">—</strong></div></div>
+        </div>
+      </section>
+      <div id="loadError" class="notice" role="alert" hidden></div>
+      <section class="section register-section" aria-labelledby="registerTitle">
+        <div class="section-heading"><div><div class="eyebrow"><span></span> ADD TO THE QUARTER</div><h2 id="registerTitle">Register a <em>new customer.</em></h2></div><p>Complete all five fields. Each submitted row counts as one onboarding.</p></div>
+        <form id="customerForm" class="form-card" novalidate>
+          <div class="form-grid">
+            <label>Sales team member<select name="salesTeamMember" required><option value="">Select team member</option><option>Akshay</option><option>Rohit</option></select></label>
+            <label>Customer name<input name="customerName" type="text" maxlength="100" autocomplete="name" placeholder="Enter customer name" required /></label>
+            <label>Company name<input name="companyName" type="text" maxlength="120" autocomplete="organization" placeholder="Enter company name" required /></label>
+            <label>Sign Up date<input name="signUpDate" type="date" required /></label>
+            <label>Product<select name="product" required><option value="">Select product</option><option>Clover</option></select></label>
+          </div>
+          <div class="form-footer"><p id="formMessage" role="status" aria-live="polite">Entries are saved to the linked Google Sheet.</p><button id="submitButton" type="submit">Register customer <span aria-hidden="true">↗</span></button></div>
+        </form>
+      </section>
+      <section class="section people-section" aria-labelledby="peopleTitle">
+        <div class="section-heading"><div><div class="eyebrow"><span></span> THE TEAM</div><h2 id="peopleTitle">Two people. <em>One quarter.</em></h2></div><p>Counts update from the live Google Sheet.</p></div>
+        <div class="people-grid">
+          <article class="person-card akshay"><div class="person-top"><span class="avatar">AK</span><span class="person-tag">TEAM MEMBER 01</span></div><h3>Akshay</h3><div class="person-number"><strong id="akshayCardCount">—</strong><span>customers onboarded</span></div><div class="person-track"><span id="akshayTrack"></span></div><p id="akshayShare">—</p></article>
+          <article class="person-card rohit"><div class="person-top"><span class="avatar">RO</span><span class="person-tag">TEAM MEMBER 02</span></div><h3>Rohit</h3><div class="person-number"><strong id="rohitCardCount">—</strong><span>customers onboarded</span></div><div class="person-track"><span id="rohitTrack"></span></div><p id="rohitShare">—</p></article>
+        </div>
+      </section>
+      <section class="section monthly-section" aria-labelledby="monthlyTitle">
+        <div class="section-heading"><div><div class="eyebrow"><span></span> MONTH BY MONTH</div><h2 id="monthlyTitle">The quarter, <em>in motion.</em></h2></div><div class="legend"><i class="legend-akshay"></i> Akshay <i class="legend-rohit"></i> Rohit</div></div>
+        <div class="monthly-panel"><div class="chart-grid" id="chartGrid" aria-label="Monthly onboarded customer counts"></div><div class="month-cards" id="monthCards"></div></div>
+      </section>
+    </main>
+    <footer class="site-footer shell"><strong>POS Central&nbsp; · &nbsp;Q4 Onboarding Arena</strong><span id="updatedAt">Live Google Sheet data</span></footer>
+  </body>
+</html>

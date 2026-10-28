@@ -1,0 +1,9 @@
+{
+  "name": "pos-central-q4-customer-onboarding",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "node dev-server.js",
+    "test": "node --test"
+  }
+}
