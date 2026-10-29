@@ -17,53 +17,12 @@ function render(data) {
   $('totalCount').textContent = data.total;
   $('akshayCount').textContent = data.counts.Akshay;
   $('rohitCount').textContent = data.counts.Rohit;
-  $('akshayCardCount').textContent = data.counts.Akshay;
-  $('rohitCardCount').textContent = data.counts.Rohit;
-  for (const member of ['Akshay', 'Rohit']) {
-    const share = data.total ? Math.round(data.counts[member] / data.total * 100) : 0;
-    $(member.toLowerCase() + 'Share').textContent = data.total ? `${share}% of Q4 onboardings` : 'Ready for the first customer';
-    $(member.toLowerCase() + 'Track').style.width = `${share}%`;
+  for (const month of data.months) {
+    const prefix = month.name.toLowerCase();
+    $(`${prefix}Akshay`).textContent = month.Akshay;
+    $(`${prefix}Rohit`).textContent = month.Rohit;
+    $(`${prefix}Total`).textContent = month.total;
   }
-  const max = Math.max(1, ...data.months.flatMap((month) => [month.Akshay, month.Rohit]));
-  $('chartGrid').replaceChildren(...data.months.map((month) => {
-    const section = document.createElement('section');
-    section.className = 'chart-month';
-    const heading = document.createElement('h3');
-    heading.textContent = month.name;
-    const bars = document.createElement('div');
-    bars.className = 'chart-bars';
-    for (const member of ['Akshay', 'Rohit']) {
-      const wrap = document.createElement('div');
-      wrap.className = 'bar-wrap';
-      const bar = document.createElement('div');
-      bar.className = `bar ${member.toLowerCase()}`;
-      const height = month[member] ? Math.max(5, month[member] / max * 88) : 0;
-      bar.style.height = `${height}%`;
-      wrap.style.setProperty('--bar-height', `${height}%`);
-      const value = document.createElement('span');
-      value.className = 'bar-value';
-      value.textContent = month[member];
-      wrap.append(bar, value);
-      bars.append(wrap);
-    }
-    const axis = document.createElement('div');
-    axis.className = 'chart-axis';
-    axis.innerHTML = '<span>AKSHAY</span><span>ROHIT</span>';
-    section.append(heading, bars, axis);
-    return section;
-  }));
-  $('monthCards').replaceChildren(...data.months.map((month) => {
-    const card = document.createElement('div');
-    card.className = 'month-card';
-    const label = document.createElement('span');
-    label.textContent = month.name.toUpperCase();
-    const count = document.createElement('strong');
-    count.textContent = month.total;
-    const detail = document.createElement('small');
-    detail.textContent = `${month.Akshay} Akshay · ${month.Rohit} Rohit`;
-    card.append(label, count, detail);
-    return card;
-  }));
   $('updatedAt').textContent = `Google Sheet checked ${new Date(data.updatedAt).toLocaleString()}`;
   setStatus('ready', 'Sheet connected');
 }
