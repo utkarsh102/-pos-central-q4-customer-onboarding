@@ -34,7 +34,7 @@ function list_() {
 }
 
 function validate_(customer) {
-  if (!customer || !['Akshay', 'Rohit'].includes(customer.salesTeamMember)) throw new Error('Invalid sales team member.');
+  if (!customer || !['Akshay', 'Rohit', 'Michael', 'Anupam'].includes(customer.salesTeamMember)) throw new Error('Invalid sales team member.');
   for (const field of ['customerName', 'companyName']) {
     if (typeof customer[field] !== 'string' || !customer[field].trim() || /^[=+\-@]/.test(customer[field].trim())) throw new Error('Invalid customer or company name.');
   }
