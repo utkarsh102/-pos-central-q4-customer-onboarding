@@ -22,11 +22,6 @@ async function callScript(payload) {
 }
 
 async function readRows() {
-  if (process.env.APPS_SCRIPT_URL && process.env.SHEET_WRITE_SECRET) {
-    const result = await callScript({ action: 'list' });
-    if (!Array.isArray(result.rows)) throw new Error('Google Sheet returned invalid data.');
-    return result.rows;
-  }
   const response = await fetch(`${CSV_URL}&v=${Date.now()}`, { signal: AbortSignal.timeout(15000), cache: 'no-store' });
   if (!response.ok) throw new Error('Could not read the public Google Sheet.');
   return parseCsv(await response.text());

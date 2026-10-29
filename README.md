@@ -7,7 +7,7 @@ Live site: https://pos-central-q4-onboarding.vercel.app/
 ## Files
 
 - `public/`: responsive dashboard, POS Central logo, font, and interactive visuals.
-- `api/customers.js`: Vercel API for live counts and validated form submissions.
+- `api/customers.js`: Vercel API that reads live counts from the public Sheet CSV and sends validated form submissions through Apps Script.
 - `lib/customers.js`: CSV parsing, validation, and Q4 counting.
 - `google-apps-script/Code.gs`: one-time Google Sheet write connection.
 
