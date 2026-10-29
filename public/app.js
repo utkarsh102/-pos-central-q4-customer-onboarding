@@ -5,6 +5,7 @@ const formMessage = $('formMessage');
 let latestData = null;
 let detailSelection = null;
 let detailTrigger = null;
+const members = ['Akshay', 'Rohit', 'Michael', 'Anupam', 'Ankit', 'Tripti'];
 
 function setStatus(kind, label) {
   statusPill.className = `status-pill ${kind}`;
@@ -44,11 +45,34 @@ function renderDetails() {
   }
 }
 
+function renderLeader(customers = []) {
+  const counts = Object.fromEntries(members.map((member) => [member, 0]));
+  for (const customer of customers) {
+    const member = String(customer.salesTeamMember || '').trim();
+    if (members.includes(member)) counts[member] += 1;
+  }
+  const top = Math.max(...Object.values(counts));
+  const leaders = members.filter((member) => counts[member] === top);
+  if (top === 0) {
+    $('leaderTitle').textContent = 'No leader yet';
+    $('leaderScore').textContent = 'First registration sets the pace';
+  } else if (leaders.length > 1) {
+    $('leaderTitle').textContent = leaders.length === 2
+      ? `${leaders[0]} and ${leaders[1]} are tied`
+      : `${leaders.length} team members are tied`;
+    $('leaderScore').textContent = `${top} ${top === 1 ? 'customer' : 'customers'} each`;
+  } else {
+    const runnerUp = Math.max(...members.filter((member) => member !== leaders[0]).map((member) => counts[member]));
+    $('leaderTitle').textContent = `${leaders[0]} is leading`;
+    $('leaderScore').textContent = `${top} ${top === 1 ? 'customer' : 'customers'} · ${top - runnerUp} ahead`;
+  }
+}
+
 function render(data) {
   latestData = data;
   $('totalCount').textContent = data.total;
-  const members = ['Akshay', 'Rohit', 'Michael', 'Anupam', 'Ankit', 'Tripti'];
   for (const member of members) $(member.toLowerCase() + 'Count').textContent = data.counts[member];
+  renderLeader(data.customers);
   for (const month of data.months) {
     const prefix = month.name.toLowerCase();
     for (const member of members) $(`${prefix}${member}`).textContent = month[member];
