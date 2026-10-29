@@ -1,6 +1,6 @@
 # POS Central Q4 Customer Onboarding
 
-A separate dashboard for Akshay, Rohit, Michael, and Anupam. It counts every Google Sheet row dated October 1–December 31, 2026, including repeat submissions. The form accepts any valid Sign Up Date; dates outside Q4 are saved but excluded from this dashboard.
+A separate dashboard for Akshay, Rohit, Michael, Anupam, Ankit, and Tripti. It counts every Google Sheet row dated October 1–December 31, 2026, including repeat submissions. The form accepts any valid Sign Up Date; dates outside Q4 are saved but excluded from this dashboard.
 
 Live site: https://pos-central-q4-onboarding.vercel.app/
 

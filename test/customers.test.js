@@ -15,17 +15,19 @@ test('counts every Q4 submission by person and month', () => {
     { salesTeamMember: 'Rohit', signUpDate: '2026-12-31' },
     { salesTeamMember: 'Michael', signUpDate: '2026-11-10' },
     { salesTeamMember: 'Anupam', signUpDate: '2026-12-01' },
+    { salesTeamMember: 'Ankit', signUpDate: '2026-10-15' },
+    { salesTeamMember: 'Tripti', signUpDate: '2026-11-15' },
     { salesTeamMember: 'Rohit', signUpDate: '2027-01-01' },
     { salesTeamMember: 'Akshay', signUpDate: '2026-09-30' }
   ];
   const result = summarize(rows);
-  assert.equal(result.total, 5);
-  assert.deepEqual(result.counts, { Akshay: 2, Rohit: 1, Michael: 1, Anupam: 1 });
-  assert.deepEqual(result.months.map((month) => month.total), [2, 1, 2]);
+  assert.equal(result.total, 7);
+  assert.deepEqual(result.counts, { Akshay: 2, Rohit: 1, Michael: 1, Anupam: 1, Ankit: 1, Tripti: 1 });
+  assert.deepEqual(result.months.map((month) => month.total), [3, 2, 2]);
 });
 
-test('accepts Michael and Anupam for registration', () => {
-  for (const salesTeamMember of ['Michael', 'Anupam']) {
+test('accepts all six team members for registration', () => {
+  for (const salesTeamMember of ['Akshay', 'Rohit', 'Michael', 'Anupam', 'Ankit', 'Tripti']) {
     const customer = validateCustomer({ salesTeamMember, customerName: 'Jane Doe', companyName: 'Example', signUpDate: '2026-11-02', product: 'Clover' });
     assert.equal(customer.salesTeamMember, salesTeamMember);
   }

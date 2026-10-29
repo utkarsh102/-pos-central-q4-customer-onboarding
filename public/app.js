@@ -15,7 +15,7 @@ function setFormMessage(message, kind = '') {
 
 function render(data) {
   $('totalCount').textContent = data.total;
-  const members = ['Akshay', 'Rohit', 'Michael', 'Anupam'];
+  const members = ['Akshay', 'Rohit', 'Michael', 'Anupam', 'Ankit', 'Tripti'];
   for (const member of members) $(member.toLowerCase() + 'Count').textContent = data.counts[member];
   for (const month of data.months) {
     const prefix = month.name.toLowerCase();
