@@ -1,6 +1,6 @@
 # POS Central Q4 Customer Onboarding
 
-A separate dashboard for Akshay and Rohit. It counts every Google Sheet row dated October 1–December 31, 2026, including repeat submissions. The form accepts any valid Sign Up Date; dates outside Q4 are saved but excluded from this dashboard.
+A separate dashboard for Akshay, Rohit, Michael, and Anupam. It counts every Google Sheet row dated October 1–December 31, 2026, including repeat submissions. The form accepts any valid Sign Up Date; dates outside Q4 are saved but excluded from this dashboard.
 
 Live site: https://pos-central-q4-onboarding.vercel.app/
 
@@ -29,4 +29,3 @@ The browser does not receive the secret. The public page allows anyone with its 
 ## Deploy
 
 The separate GitHub repository is [`utkarsh102/-pos-central-q4-customer-onboarding`](https://github.com/utkarsh102/-pos-central-q4-customer-onboarding). The Vercel project is `pos-central-q4-onboarding`, using the **Other** framework preset, no build command, and `public` as its output directory. Vercel serves `api/customers.js` as a Function. Add the two environment variables above before testing registration.
-

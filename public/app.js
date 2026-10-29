@@ -15,12 +15,11 @@ function setFormMessage(message, kind = '') {
 
 function render(data) {
   $('totalCount').textContent = data.total;
-  $('akshayCount').textContent = data.counts.Akshay;
-  $('rohitCount').textContent = data.counts.Rohit;
+  const members = ['Akshay', 'Rohit', 'Michael', 'Anupam'];
+  for (const member of members) $(member.toLowerCase() + 'Count').textContent = data.counts[member];
   for (const month of data.months) {
     const prefix = month.name.toLowerCase();
-    $(`${prefix}Akshay`).textContent = month.Akshay;
-    $(`${prefix}Rohit`).textContent = month.Rohit;
+    for (const member of members) $(`${prefix}${member}`).textContent = month[member];
     $(`${prefix}Total`).textContent = month.total;
   }
   $('updatedAt').textContent = `Google Sheet checked ${new Date(data.updatedAt).toLocaleString()}`;
