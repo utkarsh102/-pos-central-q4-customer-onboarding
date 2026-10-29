@@ -2,6 +2,8 @@
 
 A separate dashboard for Akshay, Rohit, Michael, Anupam, Ankit, and Tripti. It counts every Google Sheet row dated October 1–December 31, 2026, including repeat submissions. The form accepts any valid date of onboarding; dates outside Q4 are saved but excluded from this dashboard. The Google Sheet column remains `Sign Up Date`.
 
+Select a top count to view all submitted customer records for that person or the whole team, including dates outside Q4. Select a monthly count to view only the records counted for that month. Each detail row shows all five form fields.
+
 Live site: https://pos-central-q4-onboarding.vercel.app/
 
 ## Files

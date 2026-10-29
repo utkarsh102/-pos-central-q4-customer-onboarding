@@ -21,7 +21,7 @@ test('dashboard renders all six people and monthly counts', async () => {
     writeReady: true
   };
   vm.runInNewContext(app, {
-    document: { getElementById: (id) => elements.get(id) || null },
+    document: { getElementById: (id) => elements.get(id) || null, querySelectorAll: () => [] },
     fetch: async () => ({ ok: true, json: async () => data }),
     setInterval: () => {},
     console

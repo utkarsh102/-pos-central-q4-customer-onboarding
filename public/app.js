@@ -2,6 +2,9 @@ const $ = (id) => document.getElementById(id);
 const form = $('customerForm');
 const statusPill = $('statusPill');
 const formMessage = $('formMessage');
+let latestData = null;
+let detailSelection = null;
+let detailTrigger = null;
 
 function setStatus(kind, label) {
   statusPill.className = `status-pill ${kind}`;
@@ -13,7 +16,36 @@ function setFormMessage(message, kind = '') {
   formMessage.textContent = message;
 }
 
+function renderDetails() {
+  if (!latestData || !detailSelection) return;
+  const { member, month } = detailSelection;
+  const customers = (latestData.customers || [])
+    .filter((customer) => member === 'all' || customer.salesTeamMember.trim() === member)
+    .filter((customer) => !month || customer.q4Month === month)
+    .sort((a, b) => String(b.signUpDate).localeCompare(String(a.signUpDate)));
+  $('detailsTitle').textContent = month
+    ? `${member === 'all' ? 'All customers' : member} · ${month} 2026`
+    : `${member === 'all' ? 'All customers' : member + ' customers'}`;
+  $('detailsNote').textContent = month
+    ? `Records counted in ${month} 2026`
+    : 'All submitted records, including dates outside Q4';
+  $('detailsCount').textContent = `${customers.length} ${customers.length === 1 ? 'record' : 'records'}`;
+  $('detailsEmpty').hidden = customers.length > 0;
+  const body = $('detailsBody');
+  body.replaceChildren();
+  for (const customer of customers) {
+    const row = document.createElement('tr');
+    for (const field of ['salesTeamMember', 'customerName', 'companyName', 'signUpDate', 'product']) {
+      const cell = document.createElement('td');
+      cell.textContent = customer[field] || '—';
+      row.append(cell);
+    }
+    body.append(row);
+  }
+}
+
 function render(data) {
+  latestData = data;
   $('totalCount').textContent = data.total;
   const members = ['Akshay', 'Rohit', 'Michael', 'Anupam', 'Ankit', 'Tripti'];
   for (const member of members) $(member.toLowerCase() + 'Count').textContent = data.counts[member];
@@ -23,8 +55,26 @@ function render(data) {
     $(`${prefix}Total`).textContent = month.total;
   }
   $('updatedAt').textContent = `Google Sheet checked ${new Date(data.updatedAt).toLocaleString()}`;
+  renderDetails();
   setStatus('ready', 'Sheet connected');
 }
+
+document.querySelectorAll('[data-detail-member]').forEach((button) => {
+  button.addEventListener('click', () => {
+    if (!latestData) return;
+    detailSelection = { member: button.dataset.detailMember, month: button.dataset.detailMonth || null };
+    detailTrigger = button;
+    $('customerDetails').hidden = false;
+    renderDetails();
+    $('customerDetails').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
+
+$('closeDetails').addEventListener('click', () => {
+  $('customerDetails').hidden = true;
+  detailSelection = null;
+  detailTrigger?.focus();
+});
 
 async function refresh() {
   try {

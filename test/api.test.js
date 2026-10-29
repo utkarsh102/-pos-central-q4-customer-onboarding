@@ -11,7 +11,7 @@ test('reads public sheet CSV even when the write connection is configured', asyn
   let requestedUrl;
   global.fetch = async (url) => {
     requestedUrl = url;
-    return { ok: true, text: async () => 'Sales Team Member,Customer Name,Company Name,Sign Up Date,Product\nTripti,Example Customer,Example Company,2026-10-29,Clover\n' };
+    return { ok: true, text: async () => 'Sales Team Member,Customer Name,Company Name,Sign Up Date,Product\nTripti,Example Customer,Example Company,2026-10-29,Clover\nTripti,Later Customer,Later Company,2027-01-02,Clover\n' };
   };
   const res = {
     statusCode: 200,
@@ -25,6 +25,9 @@ test('reads public sheet CSV even when the write connection is configured', asyn
     assert.match(requestedUrl, /\/export\?format=csv/);
     assert.equal(res.body.total, 1);
     assert.equal(res.body.counts.Tripti, 1);
+    assert.equal(res.body.customers.length, 2);
+    assert.equal(res.body.customers[0].q4Month, 'October');
+    assert.equal(res.body.customers[1].q4Month, null);
     assert.equal(res.body.writeReady, true);
   } finally {
     global.fetch = previousFetch;

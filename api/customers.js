@@ -1,4 +1,4 @@
-const { validateCustomer, summarize, parseCsv, isQ4Date } = require('../lib/customers');
+const { validateCustomer, summarize, parseCsv, isQ4Date, MONTHS } = require('../lib/customers');
 
 const SHEET_ID = '1FesJ9Phs07BGwtwLA0GF_j-14XRx8urJ7mqBfg5zjyA';
 const CSV_URL = `https://docs.google.com/spreadsheets/d/${SHEET_ID}/export?format=csv&gid=0`;
@@ -32,7 +32,11 @@ module.exports = async function handler(req, res) {
   try {
     if (req.method === 'GET') {
       const rows = await readRows();
-      return res.status(200).json({ ...summarize(rows), updatedAt: new Date().toISOString(), writeReady: Boolean(process.env.APPS_SCRIPT_URL && process.env.SHEET_WRITE_SECRET) });
+      const customers = rows.map((row) => ({
+        ...row,
+        q4Month: isQ4Date(row.signUpDate) ? MONTHS[Number(row.signUpDate.slice(5, 7)) - 10] : null
+      }));
+      return res.status(200).json({ ...summarize(rows), customers, updatedAt: new Date().toISOString(), writeReady: Boolean(process.env.APPS_SCRIPT_URL && process.env.SHEET_WRITE_SECRET) });
     }
     if (req.method === 'POST') {
       const input = validateCustomer(req.body);

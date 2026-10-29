@@ -27,33 +27,48 @@
             <p class="quarter-label">Q4 2026 · OCTOBER–DECEMBER</p>
             <h1 id="pageTitle">Payment customer <em>onboarding</em></h1>
           </div>
-          <p class="overview-note">Clover customers registered by the six team members.</p>
+          <p class="overview-note">Select a count to view customer records.</p>
         </div>
         <div class="kpi-strip" aria-label="Q4 customers onboarded">
-          <div class="kpi kpi-total"><span>Total onboarded</span><strong id="totalCount">—</strong></div>
-          <div class="kpi"><span>Akshay</span><strong id="akshayCount">—</strong></div>
-          <div class="kpi"><span>Rohit</span><strong id="rohitCount">—</strong></div>
-          <div class="kpi"><span>Michael</span><strong id="michaelCount">—</strong></div>
-          <div class="kpi"><span>Anupam</span><strong id="anupamCount">—</strong></div>
-          <div class="kpi"><span>Ankit</span><strong id="ankitCount">—</strong></div>
-          <div class="kpi"><span>Tripti</span><strong id="triptiCount">—</strong></div>
+          <button class="kpi kpi-total" type="button" data-detail-member="all" aria-label="View all submitted customers"><span>Total onboarded</span><strong id="totalCount">—</strong></button>
+          <button class="kpi" type="button" data-detail-member="Akshay" aria-label="View all customers submitted by Akshay"><span>Akshay</span><strong id="akshayCount">—</strong></button>
+          <button class="kpi" type="button" data-detail-member="Rohit" aria-label="View all customers submitted by Rohit"><span>Rohit</span><strong id="rohitCount">—</strong></button>
+          <button class="kpi" type="button" data-detail-member="Michael" aria-label="View all customers submitted by Michael"><span>Michael</span><strong id="michaelCount">—</strong></button>
+          <button class="kpi" type="button" data-detail-member="Anupam" aria-label="View all customers submitted by Anupam"><span>Anupam</span><strong id="anupamCount">—</strong></button>
+          <button class="kpi" type="button" data-detail-member="Ankit" aria-label="View all customers submitted by Ankit"><span>Ankit</span><strong id="ankitCount">—</strong></button>
+          <button class="kpi" type="button" data-detail-member="Tripti" aria-label="View all customers submitted by Tripti"><span>Tripti</span><strong id="triptiCount">—</strong></button>
         </div>
       </section>
 
       <div id="loadError" class="notice" role="alert" hidden></div>
 
+      <section id="customerDetails" class="section customer-details panel" aria-labelledby="detailsTitle" hidden>
+        <div class="details-heading">
+          <div><h2 id="detailsTitle">Customer records</h2><p id="detailsNote">All submitted records</p></div>
+          <button id="closeDetails" class="close-details" type="button" aria-label="Close customer records">Close <span aria-hidden="true">×</span></button>
+        </div>
+        <p id="detailsCount" class="details-count" aria-live="polite"></p>
+        <div class="details-table-wrap" role="region" aria-label="Customer records" tabindex="0">
+          <table class="details-table">
+            <thead><tr><th scope="col">Sales team member</th><th scope="col">Customer name</th><th scope="col">Company name</th><th scope="col">Date of onboarding</th><th scope="col">Product</th></tr></thead>
+            <tbody id="detailsBody"></tbody>
+          </table>
+        </div>
+        <p id="detailsEmpty" class="details-empty" hidden>No customer records found for this selection.</p>
+      </section>
+
       <section class="section" aria-labelledby="monthlyTitle">
         <div class="section-heading">
           <h2 id="monthlyTitle">Monthly breakdown</h2>
-          <p>Customers onboarded by date of onboarding.</p>
+          <p>Select a count to see that month's customer records.</p>
         </div>
         <div class="panel table-panel" role="region" aria-label="Monthly onboarding table" tabindex="0">
           <table>
             <thead><tr><th scope="col">Month</th><th scope="col">Akshay</th><th scope="col">Rohit</th><th scope="col">Michael</th><th scope="col">Anupam</th><th scope="col">Ankit</th><th scope="col">Tripti</th><th scope="col">Total</th></tr></thead>
             <tbody>
-              <tr><th scope="row">October</th><td id="octoberAkshay">—</td><td id="octoberRohit">—</td><td id="octoberMichael">—</td><td id="octoberAnupam">—</td><td id="octoberAnkit">—</td><td id="octoberTripti">—</td><td id="octoberTotal">—</td></tr>
-              <tr><th scope="row">November</th><td id="novemberAkshay">—</td><td id="novemberRohit">—</td><td id="novemberMichael">—</td><td id="novemberAnupam">—</td><td id="novemberAnkit">—</td><td id="novemberTripti">—</td><td id="novemberTotal">—</td></tr>
-              <tr><th scope="row">December</th><td id="decemberAkshay">—</td><td id="decemberRohit">—</td><td id="decemberMichael">—</td><td id="decemberAnupam">—</td><td id="decemberAnkit">—</td><td id="decemberTripti">—</td><td id="decemberTotal">—</td></tr>
+              <tr><th scope="row">October</th><td><button id="octoberAkshay" class="month-count" type="button" data-detail-member="Akshay" data-detail-month="October">—</button></td><td><button id="octoberRohit" class="month-count" type="button" data-detail-member="Rohit" data-detail-month="October">—</button></td><td><button id="octoberMichael" class="month-count" type="button" data-detail-member="Michael" data-detail-month="October">—</button></td><td><button id="octoberAnupam" class="month-count" type="button" data-detail-member="Anupam" data-detail-month="October">—</button></td><td><button id="octoberAnkit" class="month-count" type="button" data-detail-member="Ankit" data-detail-month="October">—</button></td><td><button id="octoberTripti" class="month-count" type="button" data-detail-member="Tripti" data-detail-month="October">—</button></td><td><button id="octoberTotal" class="month-count" type="button" data-detail-member="all" data-detail-month="October">—</button></td></tr>
+              <tr><th scope="row">November</th><td><button id="novemberAkshay" class="month-count" type="button" data-detail-member="Akshay" data-detail-month="November">—</button></td><td><button id="novemberRohit" class="month-count" type="button" data-detail-member="Rohit" data-detail-month="November">—</button></td><td><button id="novemberMichael" class="month-count" type="button" data-detail-member="Michael" data-detail-month="November">—</button></td><td><button id="novemberAnupam" class="month-count" type="button" data-detail-member="Anupam" data-detail-month="November">—</button></td><td><button id="novemberAnkit" class="month-count" type="button" data-detail-member="Ankit" data-detail-month="November">—</button></td><td><button id="novemberTripti" class="month-count" type="button" data-detail-member="Tripti" data-detail-month="November">—</button></td><td><button id="novemberTotal" class="month-count" type="button" data-detail-member="all" data-detail-month="November">—</button></td></tr>
+              <tr><th scope="row">December</th><td><button id="decemberAkshay" class="month-count" type="button" data-detail-member="Akshay" data-detail-month="December">—</button></td><td><button id="decemberRohit" class="month-count" type="button" data-detail-member="Rohit" data-detail-month="December">—</button></td><td><button id="decemberMichael" class="month-count" type="button" data-detail-member="Michael" data-detail-month="December">—</button></td><td><button id="decemberAnupam" class="month-count" type="button" data-detail-member="Anupam" data-detail-month="December">—</button></td><td><button id="decemberAnkit" class="month-count" type="button" data-detail-member="Ankit" data-detail-month="December">—</button></td><td><button id="decemberTripti" class="month-count" type="button" data-detail-member="Tripti" data-detail-month="December">—</button></td><td><button id="decemberTotal" class="month-count" type="button" data-detail-member="all" data-detail-month="December">—</button></td></tr>
             </tbody>
           </table>
         </div>
