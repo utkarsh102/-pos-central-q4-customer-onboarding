@@ -54,7 +54,7 @@ form.addEventListener('submit', async (event) => {
     const result = await response.json();
     if (!response.ok) throw new Error(result.error || 'Could not save customer.');
     form.reset();
-    setFormMessage(result.countsInQ4 ? 'Customer saved. Q4 counts updated.' : 'Customer saved. Its Sign Up Date is outside Q4 2026, so it is not included in these counts.', 'success');
+    setFormMessage(result.countsInQ4 ? 'Customer saved. Q4 counts updated.' : 'Customer saved. Its date of onboarding is outside Q4 2026, so it is not included in these counts.', 'success');
     await refresh();
   } catch (error) {
     setFormMessage(error.message || 'Could not save customer.', 'error');
