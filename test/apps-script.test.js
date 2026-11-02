@@ -13,7 +13,7 @@ test('Apps Script uses stable IDs to edit and delete the intended sheet row', ()
   let sequence = 0;
   const sheet = {
     getLastRow: () => values.length,
-    getParent: () => ({ getSpreadsheetTimeZone: () => 'UTC' }),
+    getParent: () => ({ getSpreadsheetTimeZone: () => 'UTC', getSpreadsheetLocale: () => 'en_US' }),
     deleteRow: (row) => values.splice(row - 1, 1),
     getRange(row, column, height = 1, width = 1) {
       return {

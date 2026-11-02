@@ -39,13 +39,23 @@ function ensureIds_(sheet) {
   if (changed) sheet.getRange(2, 6, ids.length, 1).setValues(ids);
 }
 
-function dateString_(value, timeZone) {
+function dateString_(value, display, timeZone, locale) {
   if (value instanceof Date && !isNaN(value.getTime())) {
     return Utilities.formatDate(value, timeZone, 'yyyy-MM-dd');
   }
   const text = String(value || '').trim();
   if (/^\d{4}-\d{2}-\d{2}$/.test(text)) return text;
-  throw new Error('An existing Sign Up Date is not a recognized date.');
+  const shown = String(display || '').trim();
+  if (/^\d{4}-\d{2}-\d{2}$/.test(shown)) return shown;
+  const match = shown.match(/^(\d{1,2})[\/-](\d{1,2})[\/-](\d{4})$/);
+  if (match) {
+    const us = /^en_US$/i.test(locale);
+    const month = Number(us ? match[1] : match[2]);
+    const day = Number(us ? match[2] : match[1]);
+    const date = new Date(Date.UTC(Number(match[3]), month - 1, day));
+    if (date.getUTCMonth() + 1 === month && date.getUTCDate() === day) return Utilities.formatDate(date, 'UTC', 'yyyy-MM-dd');
+  }
+  return shown || text;
 }
 
 function list_() {
@@ -57,9 +67,14 @@ function list_() {
     const last = sheet.getLastRow();
     if (last < 2) return [];
     const timeZone = sheet.getParent().getSpreadsheetTimeZone();
-    return sheet.getRange(2, 1, last - 1, 6).getValues()
-      .filter(row => row.slice(0, 5).some(value => String(value).trim()))
-      .map(row => ({ id: String(row[5]), salesTeamMember: String(row[0]).trim(), customerName: String(row[1]), companyName: String(row[2]), signUpDate: dateString_(row[3], timeZone), product: String(row[4]) }));
+    const locale = sheet.getParent().getSpreadsheetLocale();
+    const range = sheet.getRange(2, 1, last - 1, 6);
+    const values = range.getValues();
+    const displayed = range.getDisplayValues();
+    return values
+      .map((row, index) => ({ row, shown: displayed[index] }))
+      .filter(item => item.row.slice(0, 5).some(value => String(value).trim()))
+      .map(({ row, shown }) => ({ id: String(row[5]), salesTeamMember: String(row[0]).trim(), customerName: String(row[1]), companyName: String(row[2]), signUpDate: dateString_(row[3], shown[3], timeZone, locale), product: String(row[4]) }));
   } finally { lock.releaseLock(); }
 }
 
