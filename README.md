@@ -1,6 +1,6 @@
 # POS Central Q4 Customer Onboarding
 
-A separate dashboard for Akshay, Rohit, Michael, Anupam, Ankit, and Tripti. It counts every Google Sheet row dated October 1–December 31, 2026, including repeat submissions. The form accepts any valid date of onboarding; dates outside Q4 are saved but excluded from this dashboard. The Google Sheet column remains `Sign Up Date`.
+A separate dashboard for Akshay, Rohit, Michael, Anupam, Ankit, and Tripti. It counts every Google Sheet row dated October 1–December 31, 2026, including repeat submissions. Both registration forms accept only Q4 2026 onboarding dates. The Google Sheet column remains `Sign Up Date`.
 
 Select a top count to view all submitted customer records for that person or the whole team, including dates outside Q4. Select a monthly count to view only the records counted for that month. Each detail row shows all five form fields.
 
@@ -12,6 +12,7 @@ Live site: https://pos-central-q4-onboarding.vercel.app/
 - `api/customers.js`: Vercel API that reads live counts from the public Sheet CSV and sends validated form submissions through Apps Script.
 - `lib/customers.js`: CSV parsing, validation, and Q4 counting.
 - `google-apps-script/Code.gs`: one-time Google Sheet write connection.
+- `public/manage.html` and `api/admin/`: password-protected management page and server routes.
 
 ## Local checks
 
@@ -26,8 +27,14 @@ Run `node --test` to check parsing, date rules, and counting. Run `node dev-serv
 5. In the new Vercel project, add two Production environment variables: `APPS_SCRIPT_URL` (the `/exec` URL) and `SHEET_WRITE_SECRET` (the same secret). Redeploy the site.
 6. Test one submission. Check that exactly one row appears in the Google Sheet and the displayed count updates when its Sign Up Date is in Q4 2026. Remove the test row afterward if it was only a test.
 
-The browser does not receive the secret. The public page allows anyone with its link to submit records, so share the link with the intended team only. The Google Sheet itself is currently publicly readable; restrict its sharing settings if names should be private.
+The browser does not receive the Sheet secret. The public page allows anyone with its link to submit records, so share the link with the intended team only. The Google Sheet itself is currently publicly readable; restrict its sharing settings if names should be private.
+
+## Management page
+
+The `/manage.html` page requires a shared password. Its server-side session uses an HTTP-only, SameSite cookie. The Vercel Production environment needs `ADMIN_PASSWORD_HASH` (a salted scrypt hash) and `ADMIN_SESSION_SECRET` (a random signing key); never put either in `public/` or Git. Managers can add, edit, search, and delete entries. Deletion removes the Sheet row after confirmation.
+
+For edits and deletions, replace the deployed Apps Script with the current `google-apps-script/Code.gs`, then use **Deploy → Manage deployments → Edit → New version → Deploy**. The script adds a `Record ID` column F and assigns IDs to existing rows when management first loads. The public CSV parser continues to use the original first five columns. Keep the existing `/exec` URL and `SHEET_WRITE_SECRET`.
 
 ## Deploy
 
-The separate GitHub repository is [`utkarsh102/-pos-central-q4-customer-onboarding`](https://github.com/utkarsh102/-pos-central-q4-customer-onboarding). The Vercel project is `pos-central-q4-onboarding`, using the **Other** framework preset, no build command, and `public` as its output directory. Vercel serves `api/customers.js` as a Function. Add the two environment variables above before testing registration.
+The separate GitHub repository is [`utkarsh102/-pos-central-q4-customer-onboarding`](https://github.com/utkarsh102/-pos-central-q4-customer-onboarding). The Vercel project is `pos-central-q4-onboarding`, using the **Other** framework preset, no build command, and `public` as its output directory. Vercel serves the `api/` files as Functions. Configure the Sheet variables for registration and the two management variables for password access.

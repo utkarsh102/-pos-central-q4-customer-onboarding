@@ -3,7 +3,7 @@ const assert = require('node:assert/strict');
 const { parseCsv, summarize, validateCustomer, isQ4Date } = require('../lib/customers');
 
 test('parses Google Sheet headers and quoted customer data', () => {
-  const rows = parseCsv('Sales Team Member,Customer Name,Company Name,Sign Up Date,Product\nAkshay,"Doe, Jane",Example Co,2026-10-03,Clover\n');
+  const rows = parseCsv('Sales Team Member,Customer Name,Company Name,Sign Up Date,Product,Record ID\nAkshay,"Doe, Jane",Example Co,2026-10-03,Clover,00000000-0000-4000-8000-000000000001\n');
   assert.equal(rows.length, 1);
   assert.equal(rows[0].customerName, 'Doe, Jane');
 });

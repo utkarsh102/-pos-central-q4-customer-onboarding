@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#0a3321" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Manage onboarding · POS Central</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="stylesheet" href="/style.css" />
+    <script type="module" src="/manage.js"></script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="shell header-inner">
+        <a class="brand" href="/" aria-label="POS Central onboarding home"><img src="/assets/pos-central-logo.png" alt="POS Central" /></a>
+        <a class="header-link" href="/">View dashboard</a>
+      </div>
+    </header>
+
+    <main class="shell manage-main">
+      <div class="manage-heading">
+        <div><p class="quarter-label">Q4 2026 · OCTOBER–DECEMBER</p><h1>Manage onboarding</h1></div>
+        <button id="logoutButton" class="close-details" type="button" hidden>Log out</button>
+      </div>
+
+      <section id="loginPanel" class="panel login-panel" aria-labelledby="loginTitle" hidden>
+        <h2 id="loginTitle">Manager access</h2>
+        <p>Enter the shared management password to add, edit, or delete entries.</p>
+        <form id="loginForm">
+          <label>Password<input name="password" type="password" autocomplete="current-password" required /></label>
+          <button type="submit">Unlock management</button>
+        </form>
+        <p id="loginMessage" class="manage-message" role="alert"></p>
+      </section>
+
+      <section id="managerPanel" hidden>
+        <div class="section-heading"><h2 id="formTitle">Add a customer</h2><p>Changes are saved to the linked Google Sheet.</p></div>
+        <form id="manageForm" class="panel form-panel">
+          <div class="form-grid">
+            <label>Sales team member
+              <select name="salesTeamMember" required><option value="">Select team member</option><option>Akshay</option><option>Rohit</option><option>Michael</option><option>Anupam</option><option>Ankit</option><option>Tripti</option></select>
+            </label>
+            <label>Customer name<input name="customerName" type="text" maxlength="100" required /></label>
+            <label>Company name<input name="companyName" type="text" maxlength="120" required /></label>
+            <label>Date of onboarding<input name="signUpDate" type="date" min="2026-10-01" max="2026-12-31" required /></label>
+            <label>Product<select name="product" required><option value="">Select product</option><option>Clover</option></select></label>
+          </div>
+          <div class="form-actions">
+            <p id="formMessage" role="status" aria-live="polite">Only Q4 2026 dates are accepted.</p>
+            <div class="manage-actions"><button id="cancelEdit" class="secondary-button" type="button" hidden>Cancel edit</button><button id="saveButton" type="submit">Add customer</button></div>
+          </div>
+        </form>
+
+        <div class="section-heading manage-list-heading"><h2>Customer entries</h2><label class="search-label">Search<input id="searchInput" type="search" placeholder="Name, company, or team member" /></label></div>
+        <p id="listMessage" class="manage-message" role="status" aria-live="polite"></p>
+        <div class="panel table-panel" role="region" aria-label="Manage customer entries" tabindex="0">
+          <table class="manage-table">
+            <thead><tr><th scope="col">Date</th><th scope="col">Team member</th><th scope="col">Customer</th><th scope="col">Company</th><th scope="col">Product</th><th scope="col">Actions</th></tr></thead>
+            <tbody id="manageRows"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+    <footer class="site-footer shell"><span>POS Central · Q4 2026</span><span>Manager access</span></footer>
+  </body>
+</html>
