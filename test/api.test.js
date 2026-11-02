@@ -37,3 +37,23 @@ test('reads public sheet CSV even when the write connection is configured', asyn
     else process.env.SHEET_WRITE_SECRET = previousSecret;
   }
 });
+
+test('rejects an out-of-Q4 registration before calling Google Apps Script', async () => {
+  const previousFetch = global.fetch;
+  let called = false;
+  global.fetch = async () => { called = true; throw new Error('Should not fetch'); };
+  const res = {
+    statusCode: 200,
+    setHeader() {},
+    status(code) { this.statusCode = code; return this; },
+    json(body) { this.body = body; return this; }
+  };
+  try {
+    await handler({ method: 'POST', body: { salesTeamMember: 'Tripti', customerName: 'Example', companyName: 'Example Co', signUpDate: '2026-09-30', product: 'Clover' } }, res);
+    assert.equal(res.statusCode, 400);
+    assert.match(res.body.error, /October 1 through December 31, 2026/);
+    assert.equal(called, false);
+  } finally {
+    global.fetch = previousFetch;
+  }
+});

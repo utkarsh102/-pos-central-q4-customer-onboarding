@@ -38,7 +38,10 @@ function validate_(customer) {
   for (const field of ['customerName', 'companyName']) {
     if (typeof customer[field] !== 'string' || !customer[field].trim() || /^[=+\-@]/.test(customer[field].trim())) throw new Error('Invalid customer or company name.');
   }
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(customer.signUpDate)) throw new Error('Invalid Sign Up Date.');
+  if (!/^2026-(10|11|12)-\d{2}$/.test(customer.signUpDate)) throw new Error('Date of onboarding must be in Q4 2026.');
+  const [year, month, day] = customer.signUpDate.split('-').map(Number);
+  const date = new Date(Date.UTC(year, month - 1, day));
+  if (date.getUTCFullYear() !== year || date.getUTCMonth() + 1 !== month || date.getUTCDate() !== day) throw new Error('Invalid date of onboarding.');
   if (customer.product !== 'Clover') throw new Error('Invalid product.');
 }
 

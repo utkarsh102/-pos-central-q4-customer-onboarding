@@ -85,7 +85,7 @@
       <section class="section" aria-labelledby="registerTitle">
         <div class="section-heading">
           <h2 id="registerTitle">Register a customer</h2>
-          <p>Every submitted row is saved. Only Q4 2026 sign-ups appear in the totals.</p>
+          <p>Only onboarding dates from October 1 through December 31, 2026 are accepted.</p>
         </div>
         <form id="customerForm" class="panel form-panel" novalidate>
           <div class="form-grid">
@@ -101,7 +101,7 @@
               <input name="companyName" type="text" maxlength="120" autocomplete="organization" placeholder="Enter company name" required />
             </label>
             <label>Date of onboarding
-              <input name="signUpDate" type="date" required />
+              <input name="signUpDate" type="date" min="2026-10-01" max="2026-12-31" required />
             </label>
             <label>Product
               <select name="product" required>

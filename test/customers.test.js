@@ -33,9 +33,13 @@ test('accepts all six team members for registration', () => {
   }
 });
 
-test('accepts out-of-quarter signup dates but excludes them from Q4', () => {
-  const customer = validateCustomer({ salesTeamMember: 'Rohit', customerName: 'Jane Doe', companyName: 'Example', signUpDate: '2027-01-02', product: 'Clover' });
-  assert.equal(isQ4Date(customer.signUpDate), false);
+test('accepts Q4 boundary dates and rejects dates outside Q4', () => {
+  const base = { salesTeamMember: 'Rohit', customerName: 'Jane Doe', companyName: 'Example', product: 'Clover' };
+  assert.equal(validateCustomer({ ...base, signUpDate: '2026-10-01' }).signUpDate, '2026-10-01');
+  assert.equal(validateCustomer({ ...base, signUpDate: '2026-12-31' }).signUpDate, '2026-12-31');
+  for (const signUpDate of ['2026-09-30', '2027-01-01', '2026-11-31']) {
+    assert.throws(() => validateCustomer({ ...base, signUpDate }), /October 1 through December 31, 2026/);
+  }
 });
 
 test('rejects invalid dates and spreadsheet formulas', () => {
