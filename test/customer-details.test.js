@@ -52,6 +52,8 @@ test('count clicks show all submitted records while month clicks show Q4 records
   });
   await new Promise((resolve) => setTimeout(resolve, 0));
   assert.equal(elements.get('triptiCount').textContent, '•••');
+  triggers[0].listeners.click();
+  assert.equal(elements.get('detailsBody').children.length, 0);
   elements.get('numbersEye').listeners.click();
   assert.equal(elements.get('triptiCount').textContent, 1);
   triggers[0].listeners.click();

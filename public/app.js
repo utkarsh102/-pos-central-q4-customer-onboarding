@@ -92,12 +92,17 @@ $('numbersEye').addEventListener('click', () => {
   button.setAttribute('aria-pressed', String(numbersVisible));
   button.setAttribute('aria-label', `${numbersVisible ? 'Hide' : 'Show'} onboarding figures`);
   button.lastChild.textContent = numbersVisible ? ' Hide figures' : ' Show figures';
+  if (!numbersVisible) {
+    $('customerDetails').hidden = true;
+    detailSelection = null;
+  }
   if (latestData) render(latestData);
 });
 
 document.querySelectorAll('[data-detail-member]').forEach((button) => {
   button.addEventListener('click', () => {
     if (!latestData) return;
+    if (!numbersVisible) { $('numbersEye').focus(); return; }
     detailSelection = { member: button.dataset.detailMember, month: button.dataset.detailMonth || null };
     detailTrigger = button;
     $('customerDetails').hidden = false;
