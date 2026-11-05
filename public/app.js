@@ -5,6 +5,8 @@ const formMessage = $('formMessage');
 let latestData = null;
 let detailSelection = null;
 let detailTrigger = null;
+let numbersVisible = false;
+const MASK = '•••';
 const members = ['Akshay', 'Rohit', 'Michael', 'Anupam', 'Ankit', 'Tripti'];
 
 function setStatus(kind, label) {
@@ -30,7 +32,7 @@ function renderDetails() {
   $('detailsNote').textContent = month
     ? `Records counted in ${month} 2026`
     : 'All submitted records, including dates outside Q4';
-  $('detailsCount').textContent = `${customers.length} ${customers.length === 1 ? 'record' : 'records'}`;
+  $('detailsCount').textContent = numbersVisible ? `${customers.length} ${customers.length === 1 ? 'record' : 'records'}` : MASK;
   $('detailsEmpty').hidden = customers.length > 0;
   const body = $('detailsBody');
   body.replaceChildren();
@@ -66,22 +68,32 @@ function renderLeader(customers = []) {
     $('leaderTitle').textContent = `${leaders[0]} is leading`;
     $('leaderScore').textContent = `${top} ${top === 1 ? 'customer' : 'customers'} · ${top - runnerUp} ahead`;
   }
+  if (!numbersVisible) $('leaderScore').textContent = MASK;
 }
 
 function render(data) {
   latestData = data;
-  $('totalCount').textContent = data.total;
-  for (const member of members) $(member.toLowerCase() + 'Count').textContent = data.counts[member];
+  $('totalCount').textContent = numbersVisible ? data.total : MASK;
+  for (const member of members) $(member.toLowerCase() + 'Count').textContent = numbersVisible ? data.counts[member] : MASK;
   renderLeader(data.customers);
   for (const month of data.months) {
     const prefix = month.name.toLowerCase();
-    for (const member of members) $(`${prefix}${member}`).textContent = month[member];
-    $(`${prefix}Total`).textContent = month.total;
+    for (const member of members) $(`${prefix}${member}`).textContent = numbersVisible ? month[member] : MASK;
+    $(`${prefix}Total`).textContent = numbersVisible ? month.total : MASK;
   }
   $('updatedAt').textContent = `Google Sheet checked ${new Date(data.updatedAt).toLocaleString()}`;
   renderDetails();
   setStatus('ready', 'Sheet connected');
 }
+
+$('numbersEye').addEventListener('click', () => {
+  numbersVisible = !numbersVisible;
+  const button = $('numbersEye');
+  button.setAttribute('aria-pressed', String(numbersVisible));
+  button.setAttribute('aria-label', `${numbersVisible ? 'Hide' : 'Show'} onboarding figures`);
+  button.lastChild.textContent = numbersVisible ? ' Hide figures' : ' Show figures';
+  if (latestData) render(latestData);
+});
 
 document.querySelectorAll('[data-detail-member]').forEach((button) => {
   button.addEventListener('click', () => {

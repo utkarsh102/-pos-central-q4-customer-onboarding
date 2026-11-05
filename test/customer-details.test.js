@@ -6,9 +6,9 @@ const vm = require('node:vm');
 
 function element() {
   return {
-    textContent: '', hidden: false, className: '', children: [], listeners: {},
+    textContent: '', hidden: false, className: '', children: [], listeners: {}, lastChild: { textContent: '' },
     querySelector: () => ({ textContent: '' }),
-    addEventListener(name, handler) { this.listeners[name] = handler; },
+    addEventListener(name, handler) { this.listeners[name] = handler; }, setAttribute() {},
     replaceChildren() { this.children = []; },
     append(child) { this.children.push(child); },
     scrollIntoView() {}, focus() {}
@@ -16,7 +16,7 @@ function element() {
 }
 
 test('count clicks show all submitted records while month clicks show Q4 records', async () => {
-  const html = fs.readFileSync(path.join(__dirname, '../public/index.html'), 'utf8');
+  const html = fs.readFileSync(path.join(__dirname, '../public/numbers.html'), 'utf8');
   const app = fs.readFileSync(path.join(__dirname, '../public/app.js'), 'utf8');
   assert.match(html, /data-detail-member="Tripti"/);
   assert.match(html, /data-detail-month="October"/);
@@ -51,6 +51,8 @@ test('count clicks show all submitted records while month clicks show Q4 records
     setInterval: () => {}, console
   });
   await new Promise((resolve) => setTimeout(resolve, 0));
+  assert.equal(elements.get('triptiCount').textContent, '•••');
+  elements.get('numbersEye').listeners.click();
   assert.equal(elements.get('triptiCount').textContent, 1);
   triggers[0].listeners.click();
   assert.equal(elements.get('detailsCount').textContent, '2 records');

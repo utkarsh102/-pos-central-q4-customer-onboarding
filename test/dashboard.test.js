@@ -5,10 +5,10 @@ const path = require('node:path');
 const vm = require('node:vm');
 
 test('dashboard renders all six people and monthly counts', async () => {
-  const html = fs.readFileSync(path.join(__dirname, '../public/index.html'), 'utf8');
+  const html = fs.readFileSync(path.join(__dirname, '../public/numbers.html'), 'utf8');
   const app = fs.readFileSync(path.join(__dirname, '../public/app.js'), 'utf8');
   const ids = [...html.matchAll(/id="([^"]+)"/g)].map((match) => match[1]);
-  const elements = new Map(ids.map((id) => [id, { textContent: '', className: '', hidden: false, querySelector: () => ({ textContent: '' }), addEventListener: () => {} }]));
+  const elements = new Map(ids.map((id) => [id, { textContent: '', className: '', hidden: false, querySelector: () => ({ textContent: '' }), lastChild: { textContent: '' }, setAttribute: () => {}, addEventListener(name, handler) { this[name] = handler; } }]));
   const data = {
     total: 13,
     counts: { Akshay: 1, Rohit: 2, Michael: 3, Anupam: 4, Ankit: 1, Tripti: 2 },
@@ -32,6 +32,8 @@ test('dashboard renders all six people and monthly counts', async () => {
     console
   });
   await new Promise((resolve) => setTimeout(resolve, 0));
+  assert.equal(elements.get('totalCount').textContent, '•••');
+  elements.get('numbersEye').click();
   assert.equal(elements.get('totalCount').textContent, 13);
   assert.equal(elements.get('michaelCount').textContent, 3);
   assert.equal(elements.get('anupamCount').textContent, 4);
@@ -48,7 +50,7 @@ test('dashboard renders all six people and monthly counts', async () => {
 });
 
 test('leader indicator handles ties and an empty sheet', () => {
-  const html = fs.readFileSync(path.join(__dirname, '../public/index.html'), 'utf8');
+  const html = fs.readFileSync(path.join(__dirname, '../public/numbers.html'), 'utf8');
   const app = fs.readFileSync(path.join(__dirname, '../public/app.js'), 'utf8');
   const ids = [...html.matchAll(/id="([^"]+)"/g)].map((match) => match[1]);
   const elements = new Map(ids.map((id) => [id, { textContent: '', addEventListener: () => {} }]));
@@ -62,5 +64,5 @@ test('leader indicator handles ties and an empty sheet', () => {
   assert.equal(elements.get('leaderTitle').textContent, 'No leader yet');
   context.renderLeaderForTest([{ salesTeamMember: 'Rohit' }, { salesTeamMember: 'Tripti' }]);
   assert.equal(elements.get('leaderTitle').textContent, 'Rohit and Tripti are tied');
-  assert.equal(elements.get('leaderScore').textContent, '1 customer each');
+  assert.equal(elements.get('leaderScore').textContent, '•••');
 });
