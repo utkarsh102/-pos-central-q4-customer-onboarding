@@ -8,6 +8,7 @@
     <title>Onboarding leaderboard · POS Central</title>
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/style.css" />
+    <link rel="stylesheet" href="/leaderboard.css" />
     <script type="module" src="/leaderboard.js"></script>
   </head>
   <body>
@@ -22,13 +23,14 @@
         <div>
           <p class="quarter-label">Q4 2026 · OCTOBER–DECEMBER</p>
           <h1>Payment customer <em>onboarding</em></h1>
-          <p class="board-subtitle">Team leaderboard · Ranked by all submitted customers</p>
+          <p class="board-subtitle">A live view of the team's onboarding pace.</p>
         </div>
+        <span class="hero-signal"><i aria-hidden="true"></i><span id="heroStatus">Live standings</span></span>
       </div>
       <div id="loadError" class="notice" role="alert" hidden></div>
       <section class="leaderboard-panel" aria-label="Customer onboarding standings">
-        <div class="board-head"><span>Standings</span><span>All submitted records</span></div>
-        <ol id="standings" class="standings" aria-live="polite"><li class="standings-loading">Loading standings…</li></ol>
+        <div class="board-head"><span>Team standings</span><span>All submitted records</span></div>
+        <ul id="standings" class="standings" aria-live="polite"><li class="standings-loading">Loading standings…</li></ul>
       </section>
       <div class="board-actions">
         <p id="boardStatus">Checking the Google Sheet…</p>
